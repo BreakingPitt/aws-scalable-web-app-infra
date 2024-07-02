@@ -36,13 +36,15 @@ resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
   vpc_id      = aws_vpc.aws_scalable_web_demo_vpc.id
 
   ingress {
+    description = "Allow inbound HTTP traffic from allowed IPs."
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["92.172.63.196/32"]
   }
 
   egress {
+    description = "Allow outbound traffic."
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
