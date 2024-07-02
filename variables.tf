@@ -10,7 +10,8 @@ variable "cidr_block" {
   type        = string
 }
 
-variable "s3_bucket_arn" {
-  description = "The ARN of the S3 bucket for flow logs"
+variable "s3_bucket_name" {
+  default     = "aws_scalable_web_demo_s3_flow_logs"
+  description = "The name  of the S3 bucket for flow logs"
   type        = string
 }
