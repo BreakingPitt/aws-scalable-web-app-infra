@@ -46,6 +46,14 @@ resource "aws_s3_bucket_ownership_controls" "aws_scalable_web_demo_s3_bucket_own
   }
 }
 
+resource "aws_s3_bucket_versioning" "aws_scalable_web_demo_s3_bucket_versioning" {
+  bucket = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
   name        = "aws_scalable_web_demo_route_load_balancer_sg"
   description = "Allow traffic to 80 port from the Internet"
