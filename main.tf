@@ -30,6 +30,22 @@ resource "aws_route_table_association" "aws_scalable_web_demo_route_private_tabl
   route_table_id = aws_route_table.aws_scalable_web_demo_route_table.id
 }
 
+resource "aws_s3_bucket" "aws_scalable_web_demo_s3_bucket" {
+  bucket = var.s3_bucket_name
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "example" {
+  bucket = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
   name        = "aws_scalable_web_demo_route_load_balancer_sg"
   description = "Allow traffic to 80 port from the Internet"
