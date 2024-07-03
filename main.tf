@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "aws_scalable_web_demo_s3_bucket" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_ownership_controls" "example" {
+resource "aws_s3_bucket_ownership_controls" "aws_scalable_web_demo_s3_bucket_ownership_controls" {
   bucket = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.id
   rule {
     object_ownership = "BucketOwnerPreferred"
