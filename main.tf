@@ -64,11 +64,6 @@ resource "aws_route_table_association" "aws_scalable_web_demo_route_private_tabl
 
 resource "aws_s3_bucket" "aws_scalable_web_demo_s3_bucket" {
   bucket = var.s3_bucket_name
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_ownership_controls" "aws_scalable_web_demo_s3_bucket_ownership_controls" {
