@@ -1,5 +1,5 @@
 resource "aws_flow_log" "aws_scalable_web_demo_vpc_flog_log" {
-  log_destination      = var.s3_bucket_arn
+  log_destination      = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.arn
   log_destination_type = "s3"
   traffic_type         = "ALL" 
   vpc_id               = aws_vpc.aws_scalable_web_demo_vpc.id
@@ -41,7 +41,7 @@ resource "aws_kms_key_policy" "aws_scalable_web_demo_kms_key_policy" {
 EOF
 }
 
-resource "aws_scalable_web_demo_route_table" {
+resource "aws_route_table" "aws_scalable_web_demo_route_table" {
   vpc_id = aws_vpc.aws_scalable_web_demo_vpc.id
 
   route {
