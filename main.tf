@@ -19,6 +19,11 @@ resource "aws_kms_key" "aws_scalable_web_demo_kms_key" {
   deletion_window_in_days = 30
 }
 
+resource "aws_key_pair" "aws_scalable_web_demo_key_pair" {
+  key_name   = var.key_name
+  public_key = var.public_key
+}
+
 resource "aws_kms_key_policy" "aws_scalable_web_demo_kms_key_policy" {
   key_id = aws_kms_key.aws_scalable_web_demo_kms_key.id
 
