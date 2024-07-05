@@ -30,7 +30,7 @@ variable "key_name" {
 }
 
 variable "public_key" {
-  defult      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0sU8/2O6wr2kH0DFG7FskniLxeAMhpTUL9w7dI5zN1k6shfj7B3GJd0Vh2zz4EBH/Z4BhfhbY7yzBn9Hie3HF/rDF7s+E7yB5Er3g8xxKwpS6/y5N5lF/BpZ0o1kK0/Y7T+uBOF+5sv5yqE6bdjKQ1BqUnML+v8SxjMzU9cfFmvYfHfUZTxDj5zskzyq8jIByBh5aFB1D5rK8+7dfghIUsHBCBPLZa6HP+6fskiWxyhrFOhUo9+nlT5cAXJxKpKjl7aO8RZxdGjp8Lhxh4eRyFg7Q9vEj3HRY0R6VLBzvxZ4fS9vWvH75v1t5tGydfDH+2GzxFfsN6yPs5L2Z8r8ZkX placeholder-key"
+  default      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0sU8/2O6wr2kH0DFG7FskniLxeAMhpTUL9w7dI5zN1k6shfj7B3GJd0Vh2zz4EBH/Z4BhfhbY7yzBn9Hie3HF/rDF7s+E7yB5Er3g8xxKwpS6/y5N5lF/BpZ0o1kK0/Y7T+uBOF+5sv5yqE6bdjKQ1BqUnML+v8SxjMzU9cfFmvYfHfUZTxDj5zskzyq8jIByBh5aFB1D5rK8+7dfghIUsHBCBPLZa6HP+6fskiWxyhrFOhUo9+nlT5cAXJxKpKjl7aO8RZxdGjp8Lhxh4eRyFg7Q9vEj3HRY0R6VLBzvxZ4fS9vWvH75v1t5tGydfDH+2GzxFfsN6yPs5L2Z8r8ZkX placeholder-key"
   description = "The public key material for the SSH key pair"
   type        = string
 }
