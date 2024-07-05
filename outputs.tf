@@ -1,3 +1,8 @@
+output "elb_dns_name" {
+  description = "The DNS name of the Elastic Load Balancer, which can be used to access the application."
+  value = aws_elb.example.dns_name
+}
+
 output "internet_gateway_id" {
   value       = aws_internet_gateway.aws_scalable_web_demo_internet_gateway.id
   description = "The Id of the Internet Gateway."
