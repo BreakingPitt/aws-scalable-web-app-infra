@@ -104,7 +104,8 @@ resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["92.172.63.196/32"]
-  },
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
