@@ -3,7 +3,7 @@ resource "aws_autoscaling_group" "aws_scalable_web_demo_autoscaling_group" {
   max_size             = 3
   min_size             = 1
   vpc_zone_identifier  = var.public_subnet_ids
-  launch_configuration = aws_launch_configuration.example.id
+  launch_configuration = aws_launch_configuration.aws_scalable_web_demo_launch_configuration.id
   health_check_type    = "ELB"
   health_check_grace_period = 300
 
