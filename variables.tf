@@ -1,5 +1,5 @@
 variable "ami_id" {
-  default     = data.aws_ami.amazon_linux_2.id
+  default     = "" 
   description = "The AMI ID to use for the EC2 instances"
   type        = string
 }
