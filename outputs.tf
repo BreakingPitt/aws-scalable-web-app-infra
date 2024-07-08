@@ -29,6 +29,6 @@ output "vpc_cidr_block" {
 }
 
 output "vpc_id" {
-  description = "VPC Id"
+  description = "The Id of the VPC."
   value       = aws_vpc.aws_scalable_web_demo_vpc.id
 }
