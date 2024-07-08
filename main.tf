@@ -97,6 +97,48 @@ resource "aws_kms_key_policy" "aws_scalable_web_demo_kms_key_policy" {
 EOF
 }
 
+resource "aws_launch_configuration" "aws_scalable_web_demo_launch_configuration" {
+  name          = "aws_scalable_web_demo_launch_configuration"
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  # Enhanced options
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.example.name
+  security_groups             = [aws_security_group.aws_scalable_web_demo_ec2_instances_sg.id]
+
+  # Block device mappings for EBS volumes
+  root_block_device {
+    volume_type           = "gp3"
+    volume_size           = 20
+    delete_on_termination = true
+    encrypted             = true
+  }
+
+  ebs_block_device {
+    device_name           = "/dev/sdb"
+    volume_type           = "gp3"
+    volume_size           = 50
+    delete_on_termination = true
+    encrypted             = true
+  }
+
+  # User data for bootstrapping
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World!" > /var/www/html/index.html
+              yum update -y
+              yum install -y httpd
+              systemctl start httpd
+              systemctl enable httpd
+              EOF
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_route_table" "aws_scalable_web_demo_route_table" {
   vpc_id = aws_vpc.aws_scalable_web_demo_vpc.id
 
