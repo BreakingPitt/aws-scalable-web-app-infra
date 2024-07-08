@@ -1,3 +1,8 @@
+output "autoscaling_group_name" {
+  description = "The name of the Auto Scaling group."
+  value = aws_autoscaling_group.example.name
+}
+
 output "elb_dns_name" {
   description = "The DNS name of the Elastic Load Balancer, which can be used to access the application."
   value = aws_elb.aws_scalable_web_demo_elastic_load_balancer.dns_name
