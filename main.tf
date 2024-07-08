@@ -24,7 +24,7 @@ resource "aws_autoscaling_attachment" "aws_scalable_web_demo_autoscaling_group_a
 }
 
 resource "aws_elb" "aws_scalable_web_demo_elastic_load_balancer" {
-  name               = "aws_scalable_web_demo_elastic_load_balancer"
+  name               = "aws-scalable-web-demo-elastic-load-balancer"
   availability_zones = var.availability_zones
 
   listener {
@@ -63,6 +63,33 @@ resource "aws_internet_gateway" "aws_scalable_web_demo_internet_gateway" {
 resource "aws_kms_alias" "s3_kms_key_alias" {
   name          = "alias/aws-scalable-web-demo-kms-key-1"
   target_key_id = aws_kms_key.aws_scalable_web_demo_kms_key.id
+}
+
+resource "aws_iam_role" "aws_scalable_web_demo_iam_role_instance_profile" {
+  name = "aws-scalable-web-demo-role-instance-profile"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "aws_scalable_web_demo_iam_role_policy_attachment" {
+  role       = aws_iam_role.aws_scalable_web_demo_iam_role_instance_profile.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
+resource "aws_iam_instance_profile" "aws_scalable_web_demo_instance_profile" {
+  name = "aws-scalable-web-demo-instance-profile"
+  role = aws_iam_role.aws_scalable_web_demo_iam_role_instance_profile.name
 }
 
 resource "aws_kms_key" "aws_scalable_web_demo_kms_key" {
@@ -105,7 +132,7 @@ resource "aws_launch_configuration" "aws_scalable_web_demo_launch_configuration"
 
   # Enhanced options
   associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.example.name
+  iam_instance_profile        = aws_iam_instance_profile.aws_scalable_web_demo_instance_profile.name
   security_groups             = [aws_security_group.aws_scalable_web_demo_ec2_instances_sg.id]
 
   # Block device mappings for EBS volumes
@@ -187,7 +214,7 @@ resource "aws_s3_bucket_logging" "aws_scalable_web_demo_s3_bucket_logging" {
 }
 
 resource "aws_security_group" "aws_scalable_web_demo_ec2_instances_sg" {
-  name        = "aws_scalable_web_demo_ec2_instances_sg"
+  name        = "aws-scalable-web-demo-ec2-instances-sg"
   description = "Allow traffic to 80 and 22 ports from the ELB security group"
   vpc_id      = aws_vpc.aws_scalable_web_demo_vpc.id
 
@@ -216,7 +243,7 @@ resource "aws_security_group" "aws_scalable_web_demo_ec2_instances_sg" {
 }
 
 resource "aws_security_group" "aws_scalable_web_demo_load_balancer_sg" {
-  name        = "aws_scalable_web_demo_load_balancer_sg"
+  name        = "aws-scalable-web-demo-load-balancer-sg"
   description = "Allow traffic to 80 port from the Internet"
   vpc_id      = aws_vpc.aws_scalable_web_demo_vpc.id
 
