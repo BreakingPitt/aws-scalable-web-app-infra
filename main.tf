@@ -196,14 +196,14 @@ resource "aws_security_group" "aws_scalable_web_demo_ec2_instances_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.aws_scalable_web_demo_elb_sg.id]
+    security_groups = [aws_security_group.aws_scalable_web_demo_load_balancer_sg.id]
   }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    security_groups = [aws_security_group.aws_scalable_web_demo_elb_sg.id]
+    security_groups = [aws_security_group.aws_scalable_web_demo_load_balancer_sg.id]
   }
 
   egress {
@@ -215,8 +215,8 @@ resource "aws_security_group" "aws_scalable_web_demo_ec2_instances_sg" {
   }
 }
 
-resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
-  name        = "aws_scalable_web_demo_route_load_balancer_sg"
+resource "aws_security_group" "aws_scalable_web_demo_load_balancer_sg" {
+  name        = "aws_scalable_web_demo_load_balancer_sg"
   description = "Allow traffic to 80 port from the Internet"
   vpc_id      = aws_vpc.aws_scalable_web_demo_vpc.id
 
