@@ -18,6 +18,11 @@ resource "aws_autoscaling_group" "aws_scalable_web_demo_autoscaling_group" {
   }
 }
 
+resource "aws_autoscaling_attachment" "aws_scalable_web_demo_autoscaling_group_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.aws_scalable_web_demo_autoscaling_group.name
+  elb                    = aws_elb.aws_scalable_web_demo_elastic_load_balancer.name
+}
+
 resource "aws_flow_log" "aws_scalable_web_demo_vpc_flog_log" {
   log_destination      = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.arn
   log_destination_type = "s3"
