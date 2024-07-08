@@ -1,3 +1,9 @@
+variable "ami_id" {
+  default     = data.aws_ami.amazon_linux_2.id
+  description = "The AMI ID to use for the EC2 instances"
+  type        = string
+}
+
 variable "availability_zones" {
   default     = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   description = "List of availability zones."
