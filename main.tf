@@ -23,6 +23,32 @@ resource "aws_autoscaling_attachment" "aws_scalable_web_demo_autoscaling_group_a
   elb                    = aws_elb.aws_scalable_web_demo_elastic_load_balancer.name
 }
 
+resource "aws_elb" "aws_scalable_web_demo_elastic_load_balancer" {
+  name               = "aws_scalable_web_demo_elastic_load_balancer"
+  availability_zones = var.availability_zones
+
+  listener {
+    instance_port     = 80
+    instance_protocol = "HTTP"
+    lb_port           = 80
+    lb_protocol       = "HTTP"
+  }
+
+  health_check {
+    target              = "HTTP:80/"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
+  instances                   = aws_autoscaling_group.aws_scalable_web_demo_autoscaling_group.instances
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
+}
+
 resource "aws_flow_log" "aws_scalable_web_demo_vpc_flog_log" {
   log_destination      = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.arn
   log_destination_type = "s3"
