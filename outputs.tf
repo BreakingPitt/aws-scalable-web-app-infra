@@ -1,6 +1,6 @@
 output "autoscaling_group_name" {
   description = "The name of the Auto Scaling group."
-  value = aws_autoscaling_group.example.name
+  value = aws_autoscaling_group.aws_scalable_web_demo_autoscaling_group.name
 }
 
 output "elb_dns_name" {
