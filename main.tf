@@ -186,6 +186,35 @@ resource "aws_s3_bucket_logging" "aws_scalable_web_demo_s3_bucket_logging" {
   target_prefix = "log/"
 }
 
+resource "aws_security_group" "aws_scalable_web_demo_ec2_instances_sg" {
+  name        = "aws_scalable_web_demo_ec2_instances_sg"
+  description = "Allow traffic to 80 and 22 ports from the ELB security group"
+  vpc_id      = aws_vpc.aws_scalable_web_demo_vpc.id
+
+  ingress {
+    description = "Allow inbound HTTP traffic from allowed IPs."
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.aws_scalable_web_demo_elb_sg.id]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    security_groups = [aws_security_group.aws_scalable_web_demo_elb_sg.id]
+  }
+
+  egress {
+    description = "Allow outbound traffic."
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "aws_scalable_web_demo_route_load_balancer_sg" {
   name        = "aws_scalable_web_demo_route_load_balancer_sg"
   description = "Allow traffic to 80 port from the Internet"
