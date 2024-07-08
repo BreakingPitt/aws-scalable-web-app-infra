@@ -1,3 +1,23 @@
+resource "aws_autoscaling_group" "aws_scalable_web_demo_autoscaling_group" {
+  desired_capacity     = 2
+  max_size             = 3
+  min_size             = 1
+  vpc_zone_identifier  = var.public_subnet_ids
+  launch_configuration = aws_launch_configuration.example.id
+  health_check_type    = "ELB"
+  health_check_grace_period = 300
+
+  tag {
+    key                 = "Name"
+    value               = "example-instance"
+    propagate_at_launch = true
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_flow_log" "aws_scalable_web_demo_vpc_flog_log" {
   log_destination      = aws_s3_bucket.aws_scalable_web_demo_s3_bucket.arn
   log_destination_type = "s3"
