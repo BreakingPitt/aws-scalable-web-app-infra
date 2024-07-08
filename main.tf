@@ -2,7 +2,7 @@ resource "aws_autoscaling_group" "aws_scalable_web_demo_autoscaling_group" {
   desired_capacity     = 2
   max_size             = 3
   min_size             = 1
-  vpc_zone_identifier  = var.public_subnet_ids
+  vpc_zone_identifier  = aws_subnet.aws_scalable_web_demo_public_subnets[*].id
   launch_configuration = aws_launch_configuration.aws_scalable_web_demo_launch_configuration.id
   health_check_type    = "ELB"
   health_check_grace_period = 300
@@ -24,7 +24,7 @@ resource "aws_autoscaling_attachment" "aws_scalable_web_demo_autoscaling_group_a
 }
 
 resource "aws_elb" "aws_scalable_web_demo_elastic_load_balancer" {
-  name               = "aws-scalable-web-demo-elastic-load-balancer"
+  name               = "aws-scalable-web-demo-elb"
   availability_zones = var.availability_zones
 
   listener {
@@ -42,7 +42,7 @@ resource "aws_elb" "aws_scalable_web_demo_elastic_load_balancer" {
     unhealthy_threshold = 2
   }
 
-  instances                   = aws_autoscaling_group.aws_scalable_web_demo_autoscaling_group.instances
+  instances                   = aws_autoscaling_group.aws_scalable_web_demo_autoscaling_group.*.id
   cross_zone_load_balancing   = true
   idle_timeout                = 400
   connection_draining         = true
@@ -126,7 +126,7 @@ EOF
 
 resource "aws_launch_configuration" "aws_scalable_web_demo_launch_configuration" {
   name          = "aws_scalable_web_demo_launch_configuration"
-  image_id      = var.ami_id
+  image_id      = var.ami_id != "" ? var.ami_id : data.aws_ami.amazon_linux_2.id
   instance_type = var.instance_type
   key_name      = var.key_name
 
@@ -154,12 +154,8 @@ resource "aws_launch_configuration" "aws_scalable_web_demo_launch_configuration"
   # User data for bootstrapping
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World!" > /var/www/html/index.html
-              yum update -y
-              yum install -y httpd
-              systemctl start httpd
-              systemctl enable httpd
-              EOF
+              $(base64encode(file("./files/wordpress_setup.sh")))
+  EOF
 
   lifecycle {
     create_before_destroy = true
